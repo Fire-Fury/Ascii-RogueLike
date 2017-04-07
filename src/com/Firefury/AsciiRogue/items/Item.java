@@ -16,6 +16,14 @@ public class Item {
 	public int foodValue() { return foodValue; }
 	public void modifyFoodValue(int amount) { foodValue += amount; }
 	
+	private int attackValue;
+	public int attackValue() { return attackValue; }
+	public void modifyAttackValue(int amt) { attackValue += amt; }
+	
+	private int defenseValue;
+	public int defenseValue() { return defenseValue; }
+	public void modifyDefenseValue(int amt) { defenseValue += amt; }
+	
 	public Item(char glyph, Color color, String name)
 	{
 		this.glyph = glyph;

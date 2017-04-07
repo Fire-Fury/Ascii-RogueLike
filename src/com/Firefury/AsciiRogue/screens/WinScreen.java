@@ -17,7 +17,7 @@ public class WinScreen implements Screen {
 	public Screen respondToUserInput(KeyEvent key) {
 		if(key.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			return new PlayScreen();
+			return new StartScreen();
 		}
 		else
 		{

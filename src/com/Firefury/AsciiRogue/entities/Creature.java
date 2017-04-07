@@ -41,13 +41,41 @@ public class Creature {
 	public int food() { return food; }
 	
 	private int attackValue;
-	public int attackValue() { return attackValue; }
+	public int attackValue() { 
+		int atkValue = attackValue;
+		if(weapon != null)
+		{
+			atkValue += weapon.attackValue();
+		}
+		if(armor != null)
+		{
+			atkValue += armor.attackValue();
+		}
+		return atkValue;
+	}
 
 	private int defenseValue;
-	public int defenseValue() { return defenseValue; }
+	public int defenseValue() { 
+		int defValue = defenseValue;
+		if(weapon != null)
+		{
+			defValue += weapon.defenseValue();
+		}
+		if(armor != null)
+		{
+			defValue += armor.defenseValue();
+		}
+		return defValue;
+	}
 	
 	private int visionRadius;
 	public int visionRadius() { return visionRadius; }
+	
+	private Item weapon;
+	public Item weapon() { return weapon; }
+	
+	private Item armor;
+	public Item armor() { return armor; }
 	
 	private Inventory inventory;
 	public Inventory inventory()
@@ -134,10 +162,49 @@ public class Creature {
 		{
 			doAction("drop a " + item.name());
 			inventory.remove(item);
+			unequip(item);
 		}
 		else
 		{
 			notify("There is nowhere to drop the %s", item.name());
+		}
+	}
+	
+	public void unequip(Item item)
+	{
+		if(item == null)
+			return;
+		
+		if(item == armor)
+		{
+			notify("remove a " + item.name());
+			armor = null;
+		}
+		else if(item == weapon)
+		{
+			notify("put away a " + item.name());
+			weapon = null;
+		}
+	}
+	
+	public void equip(Item item)
+	{
+		if(item.attackValue() == 0 && item.defenseValue() == 0)
+		{
+			return;
+		}
+		
+		if(item.attackValue() >= item.defenseValue())
+		{
+			unequip(weapon);
+			notify("wield a " + item.name());
+			weapon = item;
+		}
+		else
+		{
+			unequip(armor);
+			notify("put on a " + item.name());
+			armor = item;
 		}
 	}
 
@@ -201,8 +268,14 @@ public class Creature {
 	
 	public void eat(Item item)
 	{
+		if(item.foodValue() < 0)
+		{
+			notify("Ugh. Gross!");
+		}
+		
 		modifyFoodAmount(item.foodValue());
 		inventory.remove(item);
+		unequip(item);
 	}
 	
 	private void leaveCorpse()

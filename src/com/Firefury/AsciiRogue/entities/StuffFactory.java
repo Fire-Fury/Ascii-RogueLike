@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.Firefury.AsciiRogue.entities.ais.BatAi;
 import com.Firefury.AsciiRogue.entities.ais.FungusAi;
 import com.Firefury.AsciiRogue.entities.ais.PlayerAi;
+import com.Firefury.AsciiRogue.entities.ais.ZombieAi;
 import com.Firefury.AsciiRogue.items.Item;
 import com.Firefury.AsciiRogue.util.FieldOfView;
 import com.Firefury.AsciiRogue.world.World;
@@ -46,6 +47,15 @@ public class StuffFactory {
 		return bat;
 	}
 	
+	public Creature newZombie(int depth, Creature player)
+	{
+		Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen, 50, 10, 10, "Zombie");
+		world.addAtEmptyLocation(zombie, depth);
+		new ZombieAi(zombie, player);
+		return zombie;
+	}
+	//ITEMS
+	
 	public Item newRock(int depth)
 	{
 		Item rock = new Item(',' , AsciiPanel.yellow, "rock");
@@ -78,8 +88,82 @@ public class StuffFactory {
 	public Item newBread(int depth)
 	{
 		Item bread = new Item((char)15, new Color(255, 200, 68), "Bread");
-		bread.modifyFoodValue(100);
+		bread.modifyFoodValue(75);
 		world.addAtEmptyLocation(bread, depth);
 		return bread;
 	}
+	
+	public Item newBaguette(int depth)
+	{
+		Item baguette = new Item('|', AsciiPanel.yellow, "Baguette");
+		baguette.modifyFoodValue(75);
+		baguette.modifyAttackValue(1);
+		return baguette;
+	}
+	
+	//Weapons and Armor
+	public Item newDagger(int depth)
+	{
+		Item dagger = new Item(')', AsciiPanel.white, "Dagger");
+		dagger.modifyAttackValue(5);
+		world.addAtEmptyLocation(dagger, depth);
+		return dagger;
+	}
+	
+	public Item newSword(int depth)
+	{
+		Item sword = new Item(')', AsciiPanel.white, "Sword");
+		sword.modifyAttackValue(10);
+		world.addAtEmptyLocation(sword, depth);
+		return sword;
+	}
+	
+	public Item newStaff(int depth)
+	{
+		Item staff = new Item(')', AsciiPanel.white, "Staff");
+		staff.modifyAttackValue(6);
+		staff.modifyDefenseValue(3);
+		world.addAtEmptyLocation(staff, depth);
+		return staff;
+	}
+	
+	public Item newLightArmor(int depth){
+	    Item item = new Item('[', AsciiPanel.green, "tunic");
+	    item.modifyDefenseValue(2);
+	    world.addAtEmptyLocation(item, depth);
+	    return item;
+	  }
+
+	  public Item newMediumArmor(int depth){
+	    Item item = new Item('[', AsciiPanel.white, "chainmail");
+	    item.modifyDefenseValue(4);
+	    world.addAtEmptyLocation(item, depth);
+	    return item;
+	  }
+
+	  public Item newHeavyArmor(int depth){
+	    Item item = new Item('[', AsciiPanel.brightWhite, "platemail");
+	    item.modifyDefenseValue(6);
+	    world.addAtEmptyLocation(item, depth);
+	    return item;
+	  }
+	  
+	  public Item randomWeapon(int depth){
+		    switch ((int)(Math.random() * 4)){
+		    case 0: return newDagger(depth);
+		    case 1: return newSword(depth);
+		    case 2: return newBaguette(depth);
+		    default: return newStaff(depth);
+		    }
+	  }
+
+	  public Item randomArmor(int depth){
+		    switch ((int)(Math.random() * 3)){
+		    case 0: return newLightArmor(depth);
+		    case 1: return newMediumArmor(depth);
+		    default: return newHeavyArmor(depth);
+		    }
+	  }
+	  
+	  
 }

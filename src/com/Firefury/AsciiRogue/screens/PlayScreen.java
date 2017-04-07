@@ -9,6 +9,7 @@ import com.Firefury.AsciiRogue.entities.StuffFactory;
 import com.Firefury.AsciiRogue.items.Item;
 import com.Firefury.AsciiRogue.screens.inventory.DropScreen;
 import com.Firefury.AsciiRogue.screens.inventory.EatScreen;
+import com.Firefury.AsciiRogue.screens.inventory.EquipScreen;
 import com.Firefury.AsciiRogue.tiles.Tile;
 import com.Firefury.AsciiRogue.util.FieldOfView;
 import com.Firefury.AsciiRogue.world.World;
@@ -54,6 +55,10 @@ public class PlayScreen implements Screen {
 			for (int i = 0; i < 20; i++){
 				stuffFactory.newBat(z);
 			}
+			for(int i = 0; i < 3; i++)
+			{
+				stuffFactory.newZombie(z, player);
+			}
 		}		
 	}
 	
@@ -61,11 +66,11 @@ public class PlayScreen implements Screen {
 	{
 		for(int z = 0; z < world.depth(); z++)
 		{
-			for(int i = 0; i < (world.height() * world.width())/20; i++)
+			for(int i = 0; i < (world.height() * world.width())/30; i++)
 			{
 				stuffFactory.newRock(z);
 			}
-			for(int i = 0; i < 10; i++)
+			for(int i = 0; i < 8; i++)
 			{
 				stuffFactory.newApple(z);
 			}
@@ -73,6 +78,8 @@ public class PlayScreen implements Screen {
 			{
 				stuffFactory.newSteak(z);
 				stuffFactory.newBread(z);
+				stuffFactory.randomWeapon(z);
+				stuffFactory.randomArmor(z);
 			}
 		}
 		stuffFactory.newVictoryItem(world.depth()-1);
@@ -178,6 +185,7 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_N: player.moveBy( 1, 1, 0); break;
 			case KeyEvent.VK_D: subscreen = new DropScreen(player); break;
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
+			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
 			}
 		
 			switch (key.getKeyChar()){
