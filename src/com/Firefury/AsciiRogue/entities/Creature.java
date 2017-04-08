@@ -40,6 +40,32 @@ public class Creature {
 	private int food;
 	public int food() { return food; }
 	
+	private int xp;
+	public int xp() { return xp; }
+	public void modifyXp(int amt)
+	{
+		xp += amt;
+		if(amt < 0)
+		{
+			notify("You %s %d xp.", "lose", amt);
+		}
+		else
+		{
+			notify("You %s %d xp.", "gain", amt);
+		}
+		
+		while(xp > (int)(Math.pow(level,1.5) * 20))
+		{
+			level++;
+			doAction("Advance to level %d", level);
+			ai.onGainLevel();
+			modifyHp(level*2);
+		}
+	}
+	
+	private int level;
+	public int level() { return level; }
+	
 	private int attackValue;
 	public int attackValue() { 
 		int atkValue = attackValue;
@@ -91,9 +117,12 @@ public class Creature {
 		this.hp = maxHp;
 		this.attackValue = attack;
 		this.defenseValue = defense;
-		this.visionRadius = 11;
+		this.visionRadius = 9;
 		this.name = name;
 		this.inventory = new Inventory(20);
+		
+		this.level = 1;
+		this.xp = 0;
 		
 		this.maxFood = 1000;
 		this.food = maxFood/4 * 3;
@@ -104,9 +133,21 @@ public class Creature {
 		return ai.canSee(wx, wy, wz);
 	}
 	
-	public Tile tile(int wx, int wy, int wz)
+	public Tile realTile(int wx, int wy, int wz)
 	{
 		return world.tile(wx, wy, wz);
+	}
+	
+	public Tile tile(int wx, int wy, int wz)
+	{
+		if(canSee(wx, wy, wz))
+		{
+			return world.tile(wx, wy, wz);
+		}
+		else
+		{
+			return ai.rememberedTile(wx, wy, wz);
+		}
 	}
 	
 	public void moveBy(int mx, int my, int mz){
@@ -197,13 +238,13 @@ public class Creature {
 		if(item.attackValue() >= item.defenseValue())
 		{
 			unequip(weapon);
-			notify("wield a " + item.name());
+			doAction("wield a " + item.name());
 			weapon = item;
 		}
 		else
 		{
 			unequip(armor);
-			notify("put on a " + item.name());
+			doAction("put on a " + item.name());
 			armor = item;
 		}
 	}
@@ -221,6 +262,20 @@ public class Creature {
 		if(other.getName().equals("Player") && other.hp() < 1)
 		{
 			PlayScreen.setDeathCause("combat");
+		}
+		
+		if(other.hp() < 1)
+		{
+			gainXp(other);
+		}
+	}
+	
+	public void gainXp(Creature other)
+	{
+		int amount = other.maxHp() + other.attackValue() + other.defenseValue() - level * 2;
+		if(amount > 0)
+		{
+			modifyXp(amount);
 		}
 	}
 
@@ -291,6 +346,31 @@ public class Creature {
 		doAction("dig");
 	}
 	
+	public void increaseMaxHp()
+	{
+		maxHp += 10;
+		hp += 10;
+		doAction("look healthier");
+	}
+	
+	public void increaseAttackValue()
+	{
+		attackValue += 2;
+		doAction("look stronger");
+	}
+	
+	public void increaseDefenseValue()
+	{
+		defenseValue += 2;
+		doAction("look tougher");
+	}
+	
+	public void increaseVision()
+	{
+		visionRadius += 1;
+		doAction("look more aware");
+	}
+	
 	public void update(){
 		modifyFoodAmount(-1);
 		ai.onUpdate();
@@ -337,8 +417,32 @@ public class Creature {
 		return builder.toString().trim();
 	}
 	
+	public String details()
+	{
+		return String.format("     level: %d     attack: %d	    defense: %d     hp: %d", level, attackValue(), defenseValue(), hp);
+	}
+	
 	public Creature creature(int mx, int my, int mz)
 	{
-		return world.creature(mx, my, mz);
+		if(canSee(mx, my, mz))
+		{
+			return world.creature(mx, my, mz);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public Item item(int mx, int my, int mz)
+	{
+		if(canSee(mx, my, mz))
+		{
+			return world.item(mx, my, mz);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

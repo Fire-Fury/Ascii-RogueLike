@@ -1,6 +1,7 @@
 package com.Firefury.AsciiRogue.entities.ais;
 
 import com.Firefury.AsciiRogue.entities.Creature;
+import com.Firefury.AsciiRogue.exp.LevelUpController;
 import com.Firefury.AsciiRogue.tiles.Tile;
 import com.Firefury.AsciiRogue.util.Line;
 import com.Firefury.AsciiRogue.util.Point;
@@ -62,7 +63,7 @@ public class CreatureAi {
 		
 		for(Point p: new Line(creature.x, creature.y, wx, wy))
 		{
-			if(creature.tile(p.x, p.y, wz).isGround() || p.x == wx && p.y == wy)
+			if(creature.realTile(p.x, p.y, wz).isGround() || p.x == wx && p.y == wy)
 			{
 				continue;
 			}
@@ -70,5 +71,14 @@ public class CreatureAi {
 		}
 		
 		return true;
+	}
+	
+	public void onGainLevel() { 
+		new LevelUpController().autoLevelUp(creature);
+	} 
+	
+	public Tile rememberedTile(int mx, int my, int mz)
+	{
+		return Tile.UNKNOWN;
 	}
 }

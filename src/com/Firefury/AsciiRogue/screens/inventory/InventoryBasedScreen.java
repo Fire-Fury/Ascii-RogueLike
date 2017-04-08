@@ -41,7 +41,7 @@ public abstract class InventoryBasedScreen implements Screen{
 		}
 		
 		terminal.clear(' ', 0, 23, 80, 1);
-		terminal.write("What would you like to " + getVerb() + "?", 2, 23);
+		terminal.write("What would you like to " + getVerb() + "?" + " ([esc] to exit)", 2, 23);
 		terminal.repaint();
 	}
 	
@@ -63,7 +63,7 @@ public abstract class InventoryBasedScreen implements Screen{
 			
 			if(item == player.weapon() || item == player.armor())
 			{
-				line += "[Equipped]";
+				line += " [Equipped]";
 			}
 			
 			lines.add(line);

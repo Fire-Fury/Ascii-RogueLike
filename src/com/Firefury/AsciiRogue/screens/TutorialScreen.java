@@ -10,7 +10,7 @@ public class TutorialScreen implements Screen{
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		terminal.write("Created By: Alexander Wang", 1, 1);
-		terminal.write("V1.0.1", 73, 1);
+		terminal.write("V1.1.1", 73, 1);
 		terminal.writeCenter("Tutorial", 1);
 		terminal.write("You are the @.", 4, 4);
 		terminal.write("[" + (char)24 + "] or [k] to move up.", 4, 5);

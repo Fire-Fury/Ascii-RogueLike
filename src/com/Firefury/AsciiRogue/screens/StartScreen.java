@@ -9,7 +9,7 @@ public class StartScreen implements Screen {
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		terminal.write("Created By: Alexander Wang", 1, 1);
-		terminal.write("V1.0.1", 73, 1);
+		terminal.write("V1.1.1", 73, 1);
 		terminal.writeCenter("A Generic Rogue-Like", 11);
 		terminal.writeCenter("You hear the Sapphire Leaf lies in this cavern...", 13);
 		terminal.writeCenter("Resurface with it alive and you shall be rewarded greatly!", 14);

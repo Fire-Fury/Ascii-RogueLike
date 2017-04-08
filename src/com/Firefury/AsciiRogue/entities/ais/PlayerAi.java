@@ -40,5 +40,18 @@ public class PlayerAi extends CreatureAi{
 	public boolean canSee(int wx, int wy, int wz) {
 	    return fov.isVisible(wx, wy, wz);
 	}
+	
+	@Override
+	public void onGainLevel()
+	{
+		
+		
+	}
+	
+	@Override
+	public Tile rememberedTile(int mx, int my, int mz)
+	{
+		return fov.tile(mx, my, mz);
+	}
 
 }

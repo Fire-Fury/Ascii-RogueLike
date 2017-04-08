@@ -10,6 +10,8 @@ import com.Firefury.AsciiRogue.items.Item;
 import com.Firefury.AsciiRogue.screens.inventory.DropScreen;
 import com.Firefury.AsciiRogue.screens.inventory.EatScreen;
 import com.Firefury.AsciiRogue.screens.inventory.EquipScreen;
+import com.Firefury.AsciiRogue.screens.inventory.LevelUpScreen;
+import com.Firefury.AsciiRogue.screens.target.LookScreen;
 import com.Firefury.AsciiRogue.tiles.Tile;
 import com.Firefury.AsciiRogue.util.FieldOfView;
 import com.Firefury.AsciiRogue.world.World;
@@ -164,6 +166,8 @@ public class PlayScreen implements Screen {
 	
 	@Override
 	public Screen respondToUserInput(KeyEvent key) {
+		int level = player.level();
+		
 		if(subscreen != null)
 		{
 			subscreen = subscreen.respondToUserInput(key);
@@ -186,11 +190,14 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_D: subscreen = new DropScreen(player); break;
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
+			case KeyEvent.VK_SEMICOLON: subscreen = new LookScreen(player, "Looking", player.x - getScrollX(), player.y - getScrollY()); break;
 			}
 		
 			switch (key.getKeyChar()){
 			case ',':
-			case 'g': player.pickup(); break;
+			case 'g': 
+					player.pickup(); 
+					break;
 			case '<': 
 					if(userIsTryingToExit())
 						return userExits();
@@ -200,7 +207,10 @@ public class PlayScreen implements Screen {
 			case '>': player.moveBy( 0, 0, 1); break;
 			}
 		}
-			
+		if(player.level() > level)
+		{
+			subscreen = new LevelUpScreen(player, player.level() - level);
+		}	
 		if(subscreen == null)
 		{
 			world.update();
@@ -209,6 +219,7 @@ public class PlayScreen implements Screen {
 		{
 			return new LoseScreen(deathCause);
 		}
+		
 		
 		return this;
 	}

@@ -23,6 +23,9 @@ public class FieldOfView {
 	
 	public Tile tile(int x, int y, int z)
 	{
+		if(x < 0 || x >= tiles.length || y < 0 || y >= tiles[0].length || z < 0 || z >= tiles[0][0].length)
+			return Tile.UNKNOWN;
+		
 		return tiles[x][y][z];
 	}
 	
