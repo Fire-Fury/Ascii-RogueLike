@@ -11,6 +11,8 @@ import com.Firefury.AsciiRogue.screens.inventory.DropScreen;
 import com.Firefury.AsciiRogue.screens.inventory.EatScreen;
 import com.Firefury.AsciiRogue.screens.inventory.EquipScreen;
 import com.Firefury.AsciiRogue.screens.inventory.LevelUpScreen;
+import com.Firefury.AsciiRogue.screens.inventory.ThrowScreen;
+import com.Firefury.AsciiRogue.screens.target.FireWeaponScreen;
 import com.Firefury.AsciiRogue.screens.target.LookScreen;
 import com.Firefury.AsciiRogue.tiles.Tile;
 import com.Firefury.AsciiRogue.util.FieldOfView;
@@ -191,6 +193,16 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
 			case KeyEvent.VK_SEMICOLON: subscreen = new LookScreen(player, "Looking", player.x - getScrollX(), player.y - getScrollY()); break;
+			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, player.x - getScrollX(), player.y - getScrollY()); break;
+			case KeyEvent.VK_F: 
+				if(player.weapon() == null || player.weapon().rangedAttackValue() == 0)
+				{
+					player.notify("You do not have a ranged weapon equipped.");
+				}
+				else
+				{
+					subscreen = new FireWeaponScreen(player, player.x - getScrollX(), player.y - getScrollY()); break;
+				}
 			}
 		
 			switch (key.getKeyChar()){

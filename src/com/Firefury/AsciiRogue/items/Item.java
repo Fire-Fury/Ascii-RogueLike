@@ -24,6 +24,14 @@ public class Item {
 	public int defenseValue() { return defenseValue; }
 	public void modifyDefenseValue(int amt) { defenseValue += amt; }
 	
+	private int thrownAttackValue;
+	public int thrownAttackValue() { return thrownAttackValue; }
+	public void modifyThrownAttackValue(int amt) { thrownAttackValue += amt; }
+	
+	private int rangedAttackValue;
+	public int rangedAttackValue() { return rangedAttackValue; }
+	public void modifyRangedAttackValue(int amt) { rangedAttackValue += amt; }
+	
 	public Item(char glyph, Color color, String name)
 	{
 		this.glyph = glyph;

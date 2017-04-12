@@ -36,6 +36,11 @@ public class ZombieAi extends CreatureAi{
 	{
 		List<Point> points = new Path(creature, target.x, target.y).points();
 		
+		if(points == null || points.size() == 0)
+		{
+			return;
+		}
+		
 		int mx = points.get(0).x - creature.x;
 		int my = points.get(0).y - creature.y;
 		
