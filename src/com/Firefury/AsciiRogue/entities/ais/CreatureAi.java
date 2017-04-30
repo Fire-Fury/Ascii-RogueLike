@@ -33,7 +33,7 @@ public class CreatureAi {
 		int my = (int)(Math.random() * 3) - 1;
 		
 		Creature other = creature.creature(creature.x + mx, creature.y + my, creature.z);
-		if(other != null && other.getGlyph() == creature.getGlyph())
+		if(other != null && other.glyph() == creature.glyph())
 		{
 			return;
 		}

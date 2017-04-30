@@ -9,16 +9,16 @@ public class LevelUpController {
 	
 	private static LevelUpOption[] options = new LevelUpOption[]{
 		new LevelUpOption("Increased HP"){
-			public void invoke(Creature creature) { creature.increaseMaxHp(); }
+			public void invoke(Creature creature) { creature.gainMaxHp(); }
 		},
 		new LevelUpOption("Increased Attack"){
-			public void invoke(Creature creature) { creature.increaseAttackValue(); }
+			public void invoke(Creature creature) { creature.gainAttackValue(); }
 		},
 		new LevelUpOption("Increased Defense"){
-			public void invoke(Creature creature) { creature.increaseDefenseValue(); }
+			public void invoke(Creature creature) { creature.gainDefenseValue(); }
 		},
 		new LevelUpOption("Increased Vision"){
-			public void invoke(Creature creature) { creature.increaseVision(); }
+			public void invoke(Creature creature) { creature.gainVision(); }
 		}
 	};
 	

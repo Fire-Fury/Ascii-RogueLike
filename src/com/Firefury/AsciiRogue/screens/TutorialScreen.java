@@ -10,14 +10,13 @@ public class TutorialScreen implements Screen{
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		terminal.write("Created By: Alexander Wang", 1, 1);
-		terminal.write("V1.1.2", 73, 1);
+		terminal.write("V1.1.3", 73, 1);
 		terminal.writeCenter("Tutorial", 1);
 		terminal.write("You are the @.", 4, 4);
-		terminal.write("[" + (char)24 + "] or [k] to move up.", 4, 5);
-		terminal.write("[" + (char)25 + "] or [j] to move down.", 34, 5);
-		terminal.write("[" + (char)26 + "] or [l] to move right.", 4, 6);
-		terminal.write("[" + (char)27 + "] or [h] to move left.", 34, 6);
-		terminal.write("Press [e] to enter the eat menu.(Also shows edible items)", 4, 7);
+		terminal.write("Arrow Keys or HJKL to move up, down, left, or right.", 4, 5);
+		terminal.write("Press [t] or [f] to use ranged attacks.", 4, 6);
+		terminal.write("Press [e] to enter the eat menu.", 4, 7);
+		terminal.write("Press [q] to use potions.", 40, 7);
 		terminal.write("Press [d] to enter the drop menu.(Also shows your inventory)", 4, 8);
 		terminal.write("Press [w] to enter the equip/unequip menu.(Also shows weapons/armor)", 4, 9);
 		
@@ -29,7 +28,9 @@ public class TutorialScreen implements Screen{
 		terminal.write("[ and ) are armor and weapons.", 34, 11);
 		
 		terminal.write((char)232, 4, 12, AsciiPanel.brightBlue);
-		terminal.write(" is the Sapphire Leaf", 6, 12);
+		terminal.write(" is the Sapphire Leaf.", 6, 12);
+		terminal.write('!', 34, 12, AsciiPanel.brightRed);
+		terminal.write(" are potions.", 36, 12);
 		
 		terminal.write("Press [Shift]+[>] on '>' tiles to decend one level.", 4, 14);
 		terminal.write("Press [Shift]+[<] on '<' tiles to ascend one level.", 4, 15);

@@ -15,7 +15,7 @@ public class LookScreen extends TargetBasedScreen{
 		Creature creature = player.creature(x, y, player.z);
 		if(creature != null)
 		{
-			caption = creature.getGlyph() + " "  + creature.getName() + creature.details();
+			caption = creature.glyph() + " "  + creature.name() + creature.details();
 			return;
 		}
 		

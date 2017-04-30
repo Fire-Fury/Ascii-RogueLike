@@ -48,4 +48,16 @@ public class Inventory {
 		
 		return size >= items.length;
 	}
+	
+	public boolean contains(Item itemInQuestion)
+	{
+		for(Item i : items)
+		{
+			if(i != null && i.equals(itemInQuestion))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

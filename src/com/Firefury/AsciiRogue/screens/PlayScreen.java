@@ -62,6 +62,7 @@ public class PlayScreen implements Screen {
 			for(int i = 0; i < 3; i++)
 			{
 				stuffFactory.newZombie(z, player);
+				stuffFactory.newGoblin(z, player);
 			}
 		}		
 	}
@@ -82,8 +83,15 @@ public class PlayScreen implements Screen {
 			{
 				stuffFactory.newSteak(z);
 				stuffFactory.newBread(z);
+			}
+			for(int i = 0; i < 2; i++)
+			{
 				stuffFactory.randomWeapon(z);
 				stuffFactory.randomArmor(z);
+			}
+			for(int i = 0; i < 3; i++)
+			{
+				stuffFactory.newRandomPotion(z);
 			}
 		}
 		stuffFactory.newVictoryItem(world.depth()-1);
@@ -194,6 +202,7 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
 			case KeyEvent.VK_SEMICOLON: subscreen = new LookScreen(player, "Looking", player.x - getScrollX(), player.y - getScrollY()); break;
 			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, player.x - getScrollX(), player.y - getScrollY()); break;
+			case KeyEvent.VK_Q: subscreen = new QuaffScreen(player); break;
 			case KeyEvent.VK_F: 
 				if(player.weapon() == null || player.weapon().rangedAttackValue() == 0)
 				{

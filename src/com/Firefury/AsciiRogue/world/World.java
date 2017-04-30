@@ -57,7 +57,7 @@ public class World {
 		Creature creature = creature(x, y, z);
 		if(creature != null)
 		{
-			return creature.getGlyph();
+			return creature.glyph();
 		}
 		if(item(x,y,z) != null)
 		{
@@ -70,7 +70,7 @@ public class World {
 		Creature creature = creature(x, y, z);
 		if(creature != null)
 		{
-			return creature.getColor();
+			return creature.color();
 		}
 		if(item(x,y,z) != null)
 		{
@@ -153,6 +153,24 @@ public class World {
 			}
 		}
 		return false;
+	}
+	
+	public void remove(Item item)
+	{
+		for(int x = 0; x < width; x++)
+		{
+			for(int y = 0; y < height; y++)
+			{
+				for(int z = 0; z < depth; z++)
+				{
+					if(items[x][y][z] == item)
+					{
+						items[x][y][z] = null;
+						return;
+					}
+				}
+			}
+		}
 	}
 	
 	public void update(){

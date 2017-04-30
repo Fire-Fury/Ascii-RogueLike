@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import com.Firefury.AsciiRogue.entities.ais.BatAi;
 import com.Firefury.AsciiRogue.entities.ais.FungusAi;
+import com.Firefury.AsciiRogue.entities.ais.GoblinAi;
 import com.Firefury.AsciiRogue.entities.ais.PlayerAi;
 import com.Firefury.AsciiRogue.entities.ais.ZombieAi;
+import com.Firefury.AsciiRogue.items.Effect;
 import com.Firefury.AsciiRogue.items.Item;
 import com.Firefury.AsciiRogue.util.FieldOfView;
 import com.Firefury.AsciiRogue.world.World;
@@ -53,6 +55,16 @@ public class StuffFactory {
 		world.addAtEmptyLocation(zombie, depth);
 		new ZombieAi(zombie, player);
 		return zombie;
+	}
+	
+	public Creature newGoblin(int depth, Creature player)
+	{
+		Creature goblin = new Creature(world, 'G', AsciiPanel.brightGreen, 66, 15, 5, "goblin", 6);
+		goblin.equip(randomWeapon(depth));
+		goblin.equip(randomArmor(depth));
+		world.addAtEmptyLocation(goblin, depth);
+		new GoblinAi(goblin, player);
+		return goblin;
 	}
 	//ITEMS
 	
@@ -175,5 +187,128 @@ public class StuffFactory {
 		    }
 	  }
 	  
+	  //Potions and Effects
+	  public Item newHealthPotion(int depth)
+	  {
+		  Item hpPot = new Item('!', AsciiPanel.brightRed, "health potion");
+		  hpPot.setQuaffEffect(new Effect(1) {
+			  public void start(Creature creature)
+			  {
+				  if(creature.hp() == creature.maxHp())
+				  {
+					  return;
+				  }
+				  
+				  creature.modifyHp(20);
+				  creature.doAction("look healtier");
+			  }
+		  });
+		  
+		  world.addAtEmptyLocation(hpPot, depth);
+		  return hpPot;
+	  }
 	  
+	  public Item newPoisonPotion(int depth)
+	  {
+		  Item item = new Item('!', AsciiPanel.brightRed, "poison potion");
+		  item.setQuaffEffect(new Effect(20) {
+		  		public void start(Creature creature)
+		  		{
+		  			creature.doAction("look sick");
+		  		}
+		  		
+		  		public void update(Creature creature)
+		  		{
+		  			super.update(creature);
+		  			creature.modifyHp(-1);
+		  		}
+		  });
+		  
+		  world.addAtEmptyLocation(item, depth);
+		  return item;
+	  }
+	  
+	  public Item newStrengthPotion(int depth)
+	  {
+		  Item item = new Item('!', AsciiPanel.brightRed, "strength potion");
+		  item.setQuaffEffect(new Effect(20){
+			  public void start(Creature creature)
+			  {
+				  creature.modifyAttackValue(5);
+				  creature.modifyDefenseValue(5);
+				  creature.doAction("look stronger");
+			  }
+			  
+			  public void end(Creature creature)
+			  {
+				  creature.modifyAttackValue(-5);
+				  creature.modifyDefenseValue(-5);
+				  creature.doAction("look less strong");
+			  }
+		  });
+		  
+		  world.addAtEmptyLocation(item, depth);
+		  return item;
+	  }
+	  
+	  public Item newSlowHealthPotion(int depth)
+	  {
+		  Item item = new Item('!', AsciiPanel.red, "slow health potion");
+		  item.setQuaffEffect(new Effect(20){
+			  public void start(Creature creature)
+			  {
+				  creature.doAction("slowly feels better");
+			  }
+			  public void update(Creature creature)
+			  {
+				  super.update(creature);
+				  creature.modifyHp(2);
+			  }
+		  });
+		  world.addAtEmptyLocation(item, depth);
+		  return item;
+	  }
+	  
+	  public Item newPotionOfArcher(int depth){
+			Item item = new Item('!', AsciiPanel.white, "archer's potion");
+			item.setQuaffEffect(new Effect(20){
+				public void start(Creature creature){
+					creature.modifyVisionRadius(3);
+					creature.doAction("look more alert");
+				}
+				public void end(Creature creature){
+					creature.modifyVisionRadius(-3);
+					creature.doAction("look less alert");
+				}
+			});
+			
+			world.addAtEmptyLocation(item, depth);
+			return item;
+		}
+	  
+	  public Item newPotionOfExperience(int depth){
+			Item item = new Item('!', AsciiPanel.white, "experience potion");
+			item.setQuaffEffect(new Effect(20){
+				public void start(Creature creature){
+					creature.doAction("look more experienced");
+					creature.modifyXp(creature.level() * 5);
+				}
+			});
+			
+			world.addAtEmptyLocation(item, depth);
+			return item;
+		}
+	  
+	  public Item newRandomPotion(int depth)
+	  {
+		  switch((int)(Math.random()*6))
+		  {
+			  case 0 : return newHealthPotion(depth);
+			  case 1 : return newPoisonPotion(depth);
+			  case 2 : return newSlowHealthPotion(depth);
+			  case 3 : return newPotionOfArcher(depth);
+			  case 4 : return newPotionOfExperience(depth);
+			  default : return newStrengthPotion(depth);
+		  }
+	  }
 }

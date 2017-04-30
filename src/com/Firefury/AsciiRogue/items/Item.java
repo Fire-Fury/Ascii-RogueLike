@@ -32,6 +32,10 @@ public class Item {
 	public int rangedAttackValue() { return rangedAttackValue; }
 	public void modifyRangedAttackValue(int amt) { rangedAttackValue += amt; }
 	
+	private Effect quaffEffect;
+	public Effect quaffEffect(){ return quaffEffect; }
+	public void setQuaffEffect(Effect quaffEffect) { this.quaffEffect = quaffEffect; }
+	
 	public Item(char glyph, Color color, String name)
 	{
 		this.glyph = glyph;
@@ -58,4 +62,12 @@ public class Item {
 		return details;
 	}
 	
+	public boolean equals(Item itemInQuestion)
+	{
+		if(this.name().equals(itemInQuestion.name()))
+		{
+			return true;
+		}
+		return false;
+	}
 }
